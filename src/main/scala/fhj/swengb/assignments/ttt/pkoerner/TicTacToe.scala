@@ -57,13 +57,34 @@ case object PlayerA extends Player
 
 case object PlayerB extends Player
 
+case object noPlayer extends Player
+
 object TicTacToe {
 
   /**
     * creates an empty tic tac toe game
+    *
     * @return
     */
-  def apply(): TicTacToe = ???
+  def apply(): TicTacToe =
+
+    TicTacToe(
+
+      moveHistory =
+        Map(
+          TopLeft -> noPlayer,
+          TopCenter -> noPlayer,
+          TopRight -> noPlayer,
+          MiddleLeft -> noPlayer,
+          MiddleCenter -> noPlayer,
+          MiddleRight -> noPlayer,
+          BottomLeft -> noPlayer,
+          BottomCenter -> noPlayer,
+          BottomRight -> noPlayer),
+
+      nextPlayer = noPlayer
+
+    )
 
   /**
     * For a given tic tac toe game, this function applies all moves to the game.
@@ -77,6 +98,7 @@ object TicTacToe {
 
   /**
     * creates all possible games.
+    *
     * @return
     */
   def mkGames(): Map[Seq[TMove], TicTacToe] = ???
@@ -104,7 +126,6 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     * | x | o | o |
     * |---|---|---|
     *
-    *
     * @return
     */
   def asString(): String = ???
@@ -114,7 +135,7 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     *
     * The game is over if either of a player wins or there is a draw.
     */
-  val gameOver : Boolean = ???
+  val gameOver: Boolean = ???
 
   /**
     * the moves which are still to be played on this tic tac toe.
@@ -138,7 +159,7 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
   /**
     * returns a copy of the current game, but with the move applied to the tic tac toe game.
     *
-    * @param move to be played
+    * @param move   to be played
     * @param player the player
     * @return
     */
