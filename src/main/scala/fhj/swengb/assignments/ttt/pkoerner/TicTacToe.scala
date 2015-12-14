@@ -57,8 +57,6 @@ case object PlayerA extends Player
 
 case object PlayerB extends Player
 
-case object noPlayer extends Player
-
 object TicTacToe {
 
   /**
@@ -66,25 +64,7 @@ object TicTacToe {
     *
     * @return
     */
-  def apply(): TicTacToe =
-
-    TicTacToe(
-
-      moveHistory =
-        Map(
-          TopLeft -> noPlayer,
-          TopCenter -> noPlayer,
-          TopRight -> noPlayer,
-          MiddleLeft -> noPlayer,
-          MiddleCenter -> noPlayer,
-          MiddleRight -> noPlayer,
-          BottomLeft -> noPlayer,
-          BottomCenter -> noPlayer,
-          BottomRight -> noPlayer),
-
-      nextPlayer = noPlayer
-
-    )
+  def apply(): TicTacToe = TicTacToe(Map())
 
   /**
     * For a given tic tac toe game, this function applies all moves to the game.
@@ -128,14 +108,49 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     *
     * @return
     */
-  def asString(): String = ???
+  def asString(): String = {
+
+        val indexMap = Map(0 -> 16, 1 -> 20, 2 -> 24,
+            3 -> 44, 4 -> 48, 5 -> 52,
+            6 -> 72, 7 -> 76, 8 -> 80)
+
+          var ticTacToe: String =
+                "|---|---|---|\n" +
+                "|   |   |   |\n" +
+                "|---|---|---|\n" +
+                "|   |   |   |\n" +
+                "|---|---|---|\n" +
+                "|   |   |   |\n" +
+                "|---|---|---|\n"
+
+
+        for ((indexTicTacToe, value) <- moveHistory) {
+            if (value == PlayerA) {
+                ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), "O").mkString
+              }
+            else if (value == PlayerB) {
+                ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), "X").mkString
+              }
+            else {
+                ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), " ").mkString
+              }
+          }
+        ticTacToe
+  }
 
   /**
     * is true if the game is over.
     *
     * The game is over if either of a player wins or there is a draw.
     */
-  val gameOver: Boolean = ???
+  val gameOver: Boolean = {
+        if (moveHistory.size > 8 || winner != None) {
+            true
+          } else {
+            false
+          }
+
+        }
 
   /**
     * the moves which are still to be played on this tic tac toe.
