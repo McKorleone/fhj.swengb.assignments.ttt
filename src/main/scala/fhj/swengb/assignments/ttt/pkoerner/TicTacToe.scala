@@ -81,8 +81,17 @@ object TicTacToe {
     *
     * @return
     */
-  def mkGames(): Map[Seq[TMove], TicTacToe] = ???
+  def mkGames(): Map[Seq[TMove], TicTacToe] = {
 
+    val possibleMoves = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
+
+    var gameMap: Map[Seq[TMove], TicTacToe] = Map(Seq() -> TicTacToe(Map(), PlayerA))
+
+    for (move <- possibleMoves) {
+      gameMap += (Seq(move) -> TicTacToe(Map(move -> PlayerA), PlayerB))
+    }
+    gameMap
+  }
 }
 
 /**
@@ -156,9 +165,12 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     * the moves which are still to be played on this tic tac toe.
     */
   val remainingMoves: Set[TMove] = {
-    var movesRemainig = Set(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
+    var movesRemainig = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
+
+
 
   }
+
 
   /**
     * given a tic tac toe game, this function returns all
