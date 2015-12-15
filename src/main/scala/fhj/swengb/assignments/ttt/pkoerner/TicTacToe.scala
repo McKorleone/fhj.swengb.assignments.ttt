@@ -57,6 +57,8 @@ case object PlayerA extends Player
 
 case object PlayerB extends Player
 
+case object NoPlayer extends Player
+
 object TicTacToe {
 
   /**
@@ -163,7 +165,6 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     } else {
       false
     }
-
   }
 
   /**
@@ -172,7 +173,7 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
   val remainingMoves: Set[TMove] = {
     var movesRemainig = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
 
-
+  //Fehlt noch!!!
 
   }
 
@@ -189,7 +190,19 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     *
     * The set of moves contains all moves which contributed to the result.
     */
-  def winner: Option[(Player, Set[TMove])] = ???
+  def winner: Option[(Player, Set[TMove])] = {
+
+    val allMoves = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
+
+    //extrcat all valid combinations
+    if (moveHistory.values == PlayerA) {
+      Option(PlayerA, Set[TMove]())
+    } else if (moveHistory.values == PlayerB) {
+      Option(PlayerB, Set[TMove]())
+    } else {
+      Option(NoPlayer, Set[TMove]())
+    }
+  }
 
   /**
     * returns a copy of the current game, but with the move applied to the tic tac toe game.
