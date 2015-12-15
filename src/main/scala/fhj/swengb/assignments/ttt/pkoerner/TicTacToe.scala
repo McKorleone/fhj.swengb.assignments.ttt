@@ -85,8 +85,10 @@ object TicTacToe {
 
     val possibleMoves = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
 
+    //default entry for no move
     var gameMap: Map[Seq[TMove], TicTacToe] = Map(Seq() -> TicTacToe(Map(), PlayerA))
 
+    //add all possible games to map
     for (move <- possibleMoves) {
       gameMap += (Seq(move) -> TicTacToe(Map(move -> PlayerA), PlayerB))
     }
@@ -119,10 +121,12 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     */
   def asString(): String = {
 
+    //create Map with Index (TMove) and Value (Position of move)
     val indexMap = Map(0 -> 16, 1 -> 20, 2 -> 24,
                        3 -> 44, 4 -> 48, 5 -> 52,
                        6 -> 72, 7 -> 76, 8 -> 80)
 
+    //create playground TicTacToe
     var ticTacToe: String =
         "|---|---|---|\n" +
         "|   |   |   |\n" +
@@ -133,12 +137,13 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
         "|---|---|---|\n"
 
 
+    //insert in playground x for Player A, o for Player B or "empty" for not yet visited
     for ((indexTicTacToe, playerPlayed) <- moveHistory) {
       if (playerPlayed == PlayerA) {
-        ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), "O").mkString
+        ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), "x").mkString
       }
       else if (playerPlayed == PlayerB) {
-        ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), "X").mkString
+        ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), "o").mkString
       }
       else {
         ticTacToe = ticTacToe.updated(indexMap(indexTicTacToe.idx), " ").mkString
