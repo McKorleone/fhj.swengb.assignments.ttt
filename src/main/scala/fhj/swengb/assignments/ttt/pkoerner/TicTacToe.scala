@@ -1,5 +1,6 @@
 package fhj.swengb.assignments.ttt.pkoerner
 
+import scala.collection.JavaConverters._
 import scala.collection.Set
 
 /**
@@ -76,7 +77,17 @@ object TicTacToe {
     * @param moves
     * @return
     */
-  def play(t: TicTacToe, moves: Seq[TMove]): TicTacToe = ???
+  def play(t: TicTacToe, moves: Seq[TMove]): TicTacToe = {
+    var currentPlayer:Player = PlayerA
+    var result: TicTacToe = null
+
+    for (move <- moves) {
+      result = t.turn(move, currentPlayer)
+      currentPlayer = if (currentPlayer == PlayerA) PlayerB else PlayerA
+    }
+
+    result
+  }
 
   /**
     * creates all possible games.
@@ -160,30 +171,36 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     * The game is over if either of a player wins or there is a draw.
     */
   val gameOver: Boolean = {
-    if (moveHistory.size > 8 || winner != None) {
-      true
-    } else {
-      false
-    }
+    (moveHistory.size > 8 || winner != None)
   }
 
   /**
     * the moves which are still to be played on this tic tac toe.
     */
   val remainingMoves: Set[TMove] = {
-    var movesRemainig = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
-
-  //Fehlt noch!!!
-
+    val possibleMoves = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
+    possibleMoves.diff(moveHistory.map { case (indexTicTacToe, playerPlayed) => indexTicTacToe }.toList).toSet
   }
 
+  lazy val getNextPlayer: Player = {
+    moveHistory.last match {
+      case (move:TMove, player:Player) => if (player == PlayerA) PlayerB else PlayerA
+      case _ => PlayerA
+    }
+  }
 
   /**
     * given a tic tac toe game, this function returns all
     * games which can be derived by making the next turn. that means one of the
     * possible turns is taken and added to the set.
     */
-  lazy val nextGames: Set[TicTacToe] = ???
+  lazy val nextGames: Set[TicTacToe] = {
+    var result:Set[TicTacToe] = Set()
+    for (move <- this.remainingMoves) {
+      result += this.turn(move, getNextPlayer)
+    }
+    result
+  }
 
   /**
     * Either there is no winner, or PlayerA or PlayerB won the game.
@@ -192,15 +209,31 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     */
   def winner: Option[(Player, Set[TMove])] = {
 
-    val allMoves = Seq(TopLeft, TopCenter, TopRight, MiddleLeft, MiddleCenter, MiddleRight, BottomLeft, BottomCenter, BottomRight)
+    val wins = Seq(
+      Seq(TopLeft, TopCenter, TopRight),
+      Seq(MiddleLeft, MiddleCenter, MiddleRight),
+      Seq(BottomLeft, BottomCenter, BottomRight),
+      Seq(TopLeft, MiddleLeft, BottomLeft),
+      Seq(TopCenter, MiddleCenter, BottomCenter),
+      Seq(TopRight, MiddleRight, BottomRight),
+      Seq(TopLeft, MiddleCenter, BottomRight),
+      Seq(BottomLeft, MiddleCenter, TopRight)
+    )
+    var playerAMoves:Seq[TMove] = Seq()
+    var playerBMoves:Seq[TMove] = Seq()
 
-    //extrcat all valid combinations
-    if (moveHistory.values == PlayerA) {
-      Option(PlayerA, Set[TMove]())
-    } else if (moveHistory.values == PlayerB) {
-      Option(PlayerB, Set[TMove]())
-    } else {
-      Option(NoPlayer, Set[TMove]())
+    for ((move, player) <- moveHistory) {
+      if (player == PlayerA)
+        playerAMoves = playerAMoves :+ move
+      else
+        playerBMoves = playerBMoves :+ move
+    }
+
+    wins.collectFirst {
+      case winningSequence: Seq[TMove] if (winningSequence.intersect(playerAMoves).size == 3)
+      => (PlayerA, winningSequence.toSet)
+      case winningSequence: Seq[TMove] if (winningSequence.intersect(playerBMoves).size == 3)
+      => (PlayerB, winningSequence.toSet)
     }
   }
 
@@ -211,7 +244,9 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     * @param player the player
     * @return
     */
-  def turn(p: TMove, player: Player): TicTacToe = ???
+  def turn(p: TMove, player: Player): TicTacToe = {
+    TicTacToe(this.moveHistory + (p -> player), if (player == PlayerA) PlayerB else PlayerA)
+  }
 
 }
 
