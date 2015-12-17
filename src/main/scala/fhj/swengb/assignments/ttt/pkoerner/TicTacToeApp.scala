@@ -39,7 +39,7 @@ class TicTacToeApp extends Application {
 
 }
 
-class TicTacToeFXController {
+class TicTacToeAppController {
 
   @FXML private var btn_TL: Button = _
   @FXML private var btn_TC: Button = _
