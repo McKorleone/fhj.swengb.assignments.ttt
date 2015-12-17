@@ -12,13 +12,13 @@ import scala.util.control.NonFatal
   * Implement here your TicTacToe JavaFX App.
   */
 
-object TicTacToeFX {
+object TicTacToeApp {
   def main(args: Array[String]) {
-    Application.launch(classOf[TicTacToeFX], args: _*)
+    Application.launch(classOf[TicTacToeApp], args: _*)
   }
 }
 
-class TicTacToeFX extends Application {
+class TicTacToeApp extends Application {
 
   val Fxml = "/fhj/swengb/assignments/ttt/TicTacToeApp.fxml"
 
@@ -97,7 +97,7 @@ class TicTacToeFXController {
         if (amountPlayerA.size == 3) {
           lbl_plA.setText("Player A WINS!!!")
           lbl_plB.setText("Sorry... You lost!!!")
-        } else if (amountPlayerB == 3) {
+        } else if (amountPlayerB.size == 3) {
           lbl_plA.setText("Sorry... You lost!!!")
           lbl_plB.setText("Player B WINS!!!")
         } else {
