@@ -1,6 +1,5 @@
 package fhj.swengb.assignments.ttt.pkoerner
 
-import scala.collection.JavaConverters._
 import scala.collection.Set
 
 /**
@@ -58,8 +57,6 @@ case object PlayerA extends Player
 
 case object PlayerB extends Player
 
-case object NoPlayer extends Player
-
 object TicTacToe {
 
   /**
@@ -78,7 +75,7 @@ object TicTacToe {
     * @return
     */
   def play(t: TicTacToe, moves: Seq[TMove]): TicTacToe = {
-    var currentPlayer:Player = PlayerA
+    var currentPlayer: Player = PlayerA
     var result: TicTacToe = null
 
     for (move <- moves) {
@@ -103,7 +100,7 @@ object TicTacToe {
 
     //add all possible games to map
     for (move <- possibleMoves) {
-      gameMap += (Seq(move) -> TicTacToe(Map(move -> PlayerA), PlayerB))
+      gameMap += (Seq(move) -> TicTacToe(Map(move -> PlayerB), PlayerA))
     }
     gameMap
   }
@@ -195,7 +192,7 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
     * possible turns is taken and added to the set.
     */
   lazy val nextGames: Set[TicTacToe] = {
-    var result:Set[TicTacToe] = Set()
+    var result: Set[TicTacToe] = Set()
     for (move <- this.remainingMoves) {
       result += this.turn(move, getNextPlayer)
     }
@@ -219,8 +216,9 @@ case class TicTacToe(moveHistory: Map[TMove, Player],
       Seq(TopLeft, MiddleCenter, BottomRight),
       Seq(BottomLeft, MiddleCenter, TopRight)
     )
-    var playerAMoves:Seq[TMove] = Seq()
-    var playerBMoves:Seq[TMove] = Seq()
+
+    var playerAMoves: Seq[TMove] = Seq()
+    var playerBMoves: Seq[TMove] = Seq()
 
     for ((move, player) <- moveHistory) {
       if (player == PlayerA)

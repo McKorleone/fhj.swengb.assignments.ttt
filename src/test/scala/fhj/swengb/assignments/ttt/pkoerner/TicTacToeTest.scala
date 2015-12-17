@@ -18,6 +18,22 @@ class TicTacToeTest {
     assertEquals(8, t.remainingMoves.size)
   }
 
+  @Test def showPossibleGames(): Unit = {
+    val allGames = Map[Seq[TMove],TicTacToe](
+      Seq() ->  TicTacToe(Map(), PlayerA),
+      Seq(MiddleCenter) ->  TicTacToe(Map(MiddleCenter -> PlayerB), PlayerA),
+      Seq(TopLeft) ->  TicTacToe(Map(TopLeft -> PlayerB), PlayerA),
+      Seq(TopRight) ->  TicTacToe(Map(TopRight -> PlayerB), PlayerA),
+      Seq(TopCenter) ->  TicTacToe(Map(TopCenter -> PlayerB), PlayerA),
+      Seq(MiddleLeft) ->  TicTacToe(Map(MiddleLeft -> PlayerB), PlayerA),
+      Seq(MiddleRight) ->  TicTacToe(Map(MiddleRight -> PlayerB), PlayerA),
+      Seq(BottomCenter) ->  TicTacToe(Map(BottomCenter -> PlayerB), PlayerA),
+      Seq(BottomLeft) ->  TicTacToe(Map(BottomLeft -> PlayerB), PlayerA),
+      Seq(BottomRight) ->  TicTacToe(Map(BottomRight -> PlayerB), PlayerA))
+
+    assertEquals(allGames, TicTacToe.mkGames())
+  }
+
   @Test def testMovesRemaining(): Unit = {
     val game = TicTacToe(
       Map(
@@ -79,5 +95,6 @@ class TicTacToeTest {
   }
 
   // implement yourself more tests
+
 
 }
