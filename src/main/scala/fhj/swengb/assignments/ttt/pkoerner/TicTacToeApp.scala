@@ -24,18 +24,19 @@ class TicTacToeApp extends Application {
 
   val loader = new FXMLLoader(getClass.getResource(Fxml))
 
-  override def start(stage: Stage): Unit = try {
-    stage.setTitle("Tic Tac Toe")
-    loader.load[Parent]() // side effect
-    val scene = new Scene(loader.getRoot[Parent])
-    stage.setScene(scene)
-    stage.show()
+  override def start(stage: Stage): Unit =
+    try {
+      stage.setTitle("Tic Tac Toe")
+      loader.load[Parent]()
+      val scene = new Scene(loader.getRoot[Parent])
+      stage.setScene(scene)
+      stage.show()
 
-  } catch {
-    case NonFatal(e) => {
-      e.printStackTrace()
+    } catch {
+      case NonFatal(e) => {
+        e.printStackTrace()
+      }
     }
-  }
 
 }
 
@@ -94,16 +95,16 @@ class TicTacToeAppController {
         else amountPlayerB = amountPlayerB :+ player
       }
 
-        if (amountPlayerA.size == 3) {
-          lbl_plA.setText("Player A WINS!!!")
-          lbl_plB.setText("Sorry... You lost!!!")
-        } else if (amountPlayerB.size == 3) {
-          lbl_plA.setText("Sorry... You lost!!!")
-          lbl_plB.setText("Player B WINS!!!")
-        } else {
-          lbl_plA.setText("TIE!!")
-          lbl_plB.setText("TIE!!")
-        }
+      if (amountPlayerA.size == 3) {
+        lbl_plA.setText("Player A WINS!!!")
+        lbl_plB.setText("Sorry... You lost!!!")
+      } else if (amountPlayerB.size == 3) {
+        lbl_plA.setText("Sorry... You lost!!!")
+        lbl_plB.setText("Player B WINS!!!")
+      } else {
+        lbl_plA.setText("TIE!!")
+        lbl_plB.setText("TIE!!")
+      }
     }
     gameUpdate
   }
